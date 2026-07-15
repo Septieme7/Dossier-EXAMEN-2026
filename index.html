@@ -225,7 +225,7 @@
             border-radius: 0 8px 8px 0;
         }
 
-        /* --- IMAGE DU SCHÉMA BDD (ajustée pour la légende) --- */
+        /* --- IMAGE DU SCHÉMA BDD (chapitre 5) --- */
         .schema-image-container {
             text-align: center;
             margin: 8px 0 4px 0;
@@ -433,6 +433,46 @@
             page-break-inside: avoid;
         }
 
+        /* --- PAGE ENTIÈRE POUR LE SCHÉMA BDD EN IMPRESSION --- */
+        .full-page-print {
+            page-break-before: always;
+            page-break-after: always;
+            page-break-inside: avoid;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px 10px;
+        }
+        .full-page-print img {
+            max-height: 78vh;
+            width: auto;
+            max-width: 100%;
+            object-fit: contain;
+        }
+        .full-page-print .caption {
+            max-width: 100%;
+            text-align: center;
+            padding: 8px 12px;
+            margin-top: 4px;
+        }
+        .full-page-print .caption h4 {
+            font-size: 13pt;
+        }
+        .full-page-print .caption p {
+            font-size: 11pt;
+        }
+        .full-page-print .code-ref {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            color: #1a4b8c;
+            margin-top: 4px;
+            display: block;
+            border-top: 1px dashed #dee2e6;
+            padding-top: 4px;
+        }
+
         @page {
             margin: 2.2cm 2cm 2cm 2cm;
         }
@@ -468,10 +508,35 @@
             .screenshot-grid {
                 grid-template-columns: 1fr 1fr;
             }
+
+            /* --- AGRANDISSEMENT DES IMAGES SÉLECTIONNÉES --- */
             .screenshot-item img {
-                max-height: 200px;
-                cursor: default;
+                max-height: 280px;
             }
+            .large-print img {
+                max-height: 380px !important;
+            }
+            .large-print-2x img {
+                max-height: 500px !important;
+            }
+
+            /* --- PAGE ENTIÈRE POUR LE SCHÉMA BDD --- */
+            .full-page-print {
+                page-break-before: always;
+                page-break-after: always;
+                page-break-inside: avoid;
+                min-height: 100vh;
+                padding: 10px 5px;
+            }
+            .full-page-print img {
+                max-height: 78vh;
+                width: auto;
+                max-width: 100%;
+            }
+            .full-page-print .caption {
+                padding: 6px 10px;
+            }
+
             .schema-image-container img {
                 max-height: 420px;
             }
@@ -1056,7 +1121,7 @@
                 </div>
             </div>
 
-            <!-- 02-dashboard.png + 02-dashboard2.png -->
+            <!-- 02-dashboard.png + 02-dashboard2.png (large-print-2x) -->
             <div class="screenshot-item">
                 <img src="screenshots/02-dashboard.png" alt="Tableau de bord" class="clickable-screenshot">
                 <div class="caption">
@@ -1065,7 +1130,7 @@
                     <span class="code-ref">frontend/src/AppWithAuth.jsx</span>
                 </div>
             </div>
-            <div class="screenshot-item">
+            <div class="screenshot-item large-print-2x">
                 <img src="screenshots/02-dashboard2.png" alt="Extrait code AppWithAuth.jsx" class="clickable-screenshot">
                 <div class="caption">
                     <h4>AppWithAuth.jsx - Panneau de statut</h4>
@@ -1074,7 +1139,7 @@
                 </div>
             </div>
 
-            <!-- 03-personnages.png + 03-personnages2.png + 03-personnages3.png -->
+            <!-- 03-personnages.png + 03-personnages2.png (large-print-2x) + 03-personnages3.png -->
             <div class="screenshot-item">
                 <img src="screenshots/03-personnages.png" alt="Catalogue des personnages" class="clickable-screenshot">
                 <div class="caption">
@@ -1083,7 +1148,7 @@
                     <span class="code-ref">frontend/src/components/Personnages.jsx</span>
                 </div>
             </div>
-            <div class="screenshot-item">
+            <div class="screenshot-item large-print-2x">
                 <img src="screenshots/03-personnages2.png" alt="Extrait code Personnages.jsx" class="clickable-screenshot">
                 <div class="caption">
                     <h4>Personnages.jsx - Tableau avec badges</h4>
@@ -1100,8 +1165,8 @@
                 </div>
             </div>
 
-            <!-- 04-crud-modal.png + 04-crud-modal2.png -->
-            <div class="screenshot-item">
+            <!-- 04-crud-modal.png (large-print-2x) + 04-crud-modal2.png (large-print-2x) -->
+            <div class="screenshot-item large-print-2x">
                 <img src="screenshots/04-crud-modal.png" alt="Modal CRUD" class="clickable-screenshot">
                 <div class="caption">
                     <h4>Modal CRUD dynamique</h4>
@@ -1109,7 +1174,7 @@
                     <span class="code-ref">frontend/src/components/Modal.jsx (extrait du rendu des champs select avec référence)</span>
                 </div>
             </div>
-            <div class="screenshot-item">
+            <div class="screenshot-item large-print-2x">
                 <img src="screenshots/04-crud-modal2.png" alt="Extrait code Modal.jsx" class="clickable-screenshot">
                 <div class="caption">
                     <h4>Modal.jsx - Champ relationnel</h4>
@@ -1118,7 +1183,7 @@
                 </div>
             </div>
 
-            <!-- 05-music-player.png + 05-music-player2.png -->
+            <!-- 05-music-player.png + 05-music-player2.png (large-print-2x) -->
             <div class="screenshot-item">
                 <img src="screenshots/05-music-player.png" alt="Lecteur audio" class="clickable-screenshot">
                 <div class="caption">
@@ -1127,7 +1192,7 @@
                     <span class="code-ref">frontend/src/components/MusicPlayer.jsx</span>
                 </div>
             </div>
-            <div class="screenshot-item">
+            <div class="screenshot-item large-print-2x">
                 <img src="screenshots/05-music-player2.png" alt="Extrait code MusicPlayer.jsx" class="clickable-screenshot">
                 <div class="caption">
                     <h4>MusicPlayer.jsx - Playlist interactive</h4>
@@ -1154,8 +1219,8 @@
                 </div>
             </div>
 
-            <!-- 07-schema-bdd.png + 07-schema-bdd2.png + 07-schema-bdd3.png -->
-            <div class="screenshot-item">
+            <!-- 07-schema-bdd.png (full-page-print) + 07-schema-bdd2.png + 07-schema-bdd3.png -->
+            <div class="screenshot-item full-page-print">
                 <img src="screenshots/07-schema-bdd.png" alt="Schéma BDD" class="clickable-screenshot">
                 <div class="caption">
                     <h4>Schéma BDD (3FN)</h4>
@@ -1180,8 +1245,8 @@
                 </div>
             </div>
 
-            <!-- 08-docker-compose.png -->
-            <div class="screenshot-item">
+            <!-- 08-docker-compose.png (large-print-2x) -->
+            <div class="screenshot-item large-print-2x">
                 <img src="screenshots/08-docker-compose.png" alt="Docker Compose" class="clickable-screenshot">
                 <div class="caption">
                     <h4>Docker & Orchestration</h4>
@@ -1192,6 +1257,7 @@
         </div>
 
         <p style="font-size: 11pt; color: #666; margin-top: -5px;">
+            * Toutes les captures sont accompagnées de leur référence de fichier ou URL correspondante.
         </p>
     </div>
 
@@ -1201,7 +1267,7 @@
     <div class="page-keep-together page-break-before" id="section12">
         <h2>12. Conclusion et compétences validées</h2>
         <p>
-            Le projet <strong>Goldorak DB V1 Reload</strong> couvre de manière exhaustive l'ensemble du périmètre du titre professionnel <strong>"Développeur Web et Web Mobile"</strong>. Il démontre ma capacité à mener un projet de bout en bout, de l'analyse des besoins à la conteneurisation, en passant par la conception de base de données, le développement backend et frontend, et la mise en place d'une sécurité robuste.
+            Le projet <strong>Goldorak DB</strong> couvre de manière exhaustive l'ensemble du périmètre du titre professionnel <strong>"Développeur Web et Web Mobile"</strong>. Il démontre ma capacité à mener un projet de bout en bout, de l'analyse des besoins à la conteneurisation, en passant par la conception de base de données, le développement backend et frontend, et la mise en place d'une sécurité robuste.
         </p>
         <h3>Compétences validées :</h3>
         <ul>
@@ -1274,7 +1340,7 @@
             <li><strong>Semaine 5-6</strong> : Authentification OAuth2 et mode invité.</li>
             <li><strong>Semaine 7-8</strong> : Frontend (React, composants, hooks, routage).</li>
             <li><strong>Semaine 9</strong> : Conteneurisation (Dockerfiles, docker-compose).</li>
-            <li><strong>Semaine 10</strong> : Tests, corrections, documentation (README.md). Cela n'a pas était fait en dernier, mais tout le long de mon projet S1 à S10.</li>
+            <li><strong>Semaine 10</strong> : Tests, corrections, documentation (README.md). Cela n'a pas était fait en dernier mais tout le long de mon projet S1 à S10.</li>
         </ul>
 
         <!-- ============================================================ -->
@@ -1282,21 +1348,24 @@
         <!-- ============================================================ -->
         <div class="footer">
             <div style="font-weight: bold; font-size: 13pt;">
-                Benjamin ASTIER — Dossier Professionnel — Goldorak DB
+                Benjamin ASTIER — Dossier Personnel — Goldorak DB
             </div>
             <div style="font-size: 11pt; color: #555; margin-top: 4px;">
                 La Plateforme — Martigues — Session 2025-2026
             </div>
             <div class="github-links">
                 <a href="https://github.com/Septieme7/Goldorak-V1.git" target="_blank">
-                    🔗 Dépôt GitHub : https://github.com/Septieme7/Goldorak-V1.git
+                    Dépôt GitHub : https://github.com/Septieme7/Goldorak-V1.git
                 </a>
                 <a href="https://github.com/Septieme7/Goldorak-V1/blob/main/README.md" target="_blank">
-                    📄 README.md : https://github.com/Septieme7/Goldorak-V1/blob/main/README.md
+                    README.md : https://github.com/Septieme7/Goldorak-V1/blob/main/README.md
                 </a>
                 <a href="https://github.com/Septieme7/Dossier-EXAMEN-2026/tree/main" target="_blank">
-                    📁 Dossier EXAMEN 2026 : https://github.com/Septieme7/Astier-Benjamin-dossier-pros-DWWM.git
+                    Dossier EXAMEN 2026 : https://github.com/Septieme7/Dossier-EXAMEN-2026/tree/main
                 </a>
+            </div>
+            <div style="font-size: 10pt; color: #888; margin-top: 12px;">
+                Document généré le 12/05/2026 — Version 7.7.7
             </div>
         </div>
     </div>

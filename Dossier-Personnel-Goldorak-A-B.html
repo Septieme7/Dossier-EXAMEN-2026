@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dossier Personnel - Goldorak DB</title>
+    <style>
+        /* --- STYLES D'IMPRESSION PROFESSIONNELS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Times New Roman', 'Segoe UI', 'Georgia', serif;
+            background-color: #f2f2f5;
+            padding: 20px;
+            color: #1e1e2a;
+            font-size: 12pt;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 50px 60px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+            border-radius: 8px;
+        }
+
+        /* --- COUVERTURE --- */
+        .cover-page {
+            text-align: center;
+            padding: 40px 20px 50px 20px;
+            border-bottom: 3px double #0a0a2a;
+            margin-bottom: 40px;
+            page-break-after: always;
+        }
+        .cover-page h1 {
+            font-size: 36pt;
+            color: #0a0a2a;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            border: none;
+            padding: 0;
+        }
+        .cover-page .sub {
+            font-size: 20pt;
+            color: #1a4b8c;
+            margin-top: 10px;
+            font-weight: normal;
+        }
+        .cover-page .divider {
+            width: 150px;
+            height: 4px;
+            background: #1a4b8c;
+            margin: 30px auto;
+        }
+        .cover-page .meta {
+            margin-top: 40px;
+            font-size: 14pt;
+            color: #333;
+        }
+        .cover-page .badges-cover {
+            margin: 30px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+        }
+        .cover-page .badges-cover img {
+            height: 22px;
+        }
+        .cover-logo {
+            margin: 20px 0 10px 0;
+        }
+        .cover-logo img {
+            max-width: 200px;
+            height: auto;
+            cursor: zoom-in;
+        }
+
+        /* --- SOMMAIRE --- */
+        .toc {
+            page-break-after: always;
+            margin-bottom: 40px;
+        }
+        .toc h2 {
+            font-size: 24pt;
+            border-bottom: 2px solid #0a0a2a;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+            display: block;
+        }
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+            columns: 2;
+            column-gap: 40px;
+        }
+        .toc ul li {
+            padding: 6px 0;
+            border-bottom: 1px dotted #ddd;
+            font-size: 13pt;
+        }
+        .toc ul li a {
+            text-decoration: none;
+            color: #0a0a2a;
+            display: block;
+        }
+        .toc ul li a:hover {
+            color: #1a4b8c;
+        }
+        .toc ul li a span {
+            float: right;
+            font-weight: bold;
+            color: #1a4b8c;
+        }
+
+        /* --- TYPOGRAPHIE --- */
+        h1 {
+            font-size: 28pt;
+            color: #0a0a2a;
+            border-left: 8px solid #1a4b8c;
+            padding-left: 20px;
+            margin: 40px 0 20px 0;
+        }
+        h2 {
+            font-size: 20pt;
+            color: #1a4b8c;
+            margin-top: 35px;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #1a4b8c;
+            display: block;
+            page-break-after: avoid;
+        }
+        h3 {
+            font-size: 16pt;
+            color: #2c3e50;
+            margin-top: 28px;
+            margin-bottom: 12px;
+            page-break-after: avoid;
+        }
+        h4 {
+            font-size: 14pt;
+            color: #2c3e50;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            page-break-after: avoid;
+        }
+        p {
+            font-size: 12pt;
+            line-height: 1.7;
+            margin-bottom: 12px;
+            text-align: justify;
+        }
+
+        /* --- TABLEAUX --- */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0 25px 0;
+            font-size: 10.5pt;
+            page-break-inside: avoid;
+        }
+        table th {
+            background: #0a0a2a;
+            color: white;
+            padding: 6px 8px;
+            text-align: left;
+            font-weight: 600;
+        }
+        table td, table th {
+            border: 1px solid #888;
+            padding: 6px 8px;
+            vertical-align: top;
+        }
+        table tr:nth-child(even) {
+            background: #f4f6f9;
+        }
+
+        /* --- BLOCS DE CODE (cliquables) --- */
+        .code-block {
+            background: #1e1e2a;
+            color: #e0e0e0;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 8.5pt;
+            margin: 10px 0 15px 0;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            page-break-inside: avoid;
+            border: 1px solid #333;
+            cursor: zoom-in;
+            transition: background 0.2s;
+        }
+        .code-block:hover {
+            background: #2a2a3a;
+        }
+
+        /* --- SCHÉMAS ASCII (chapitre 4) --- */
+        .schema-block {
+            background: #f0f4f8;
+            border: 2px solid #0a0a2a;
+            padding: 15px;
+            font-family: 'Courier New', monospace;
+            font-size: 8.5pt;
+            line-height: 1.3;
+            margin: 15px 0;
+            border-radius: 8px;
+            page-break-inside: avoid;
+            white-space: pre;
+            overflow-x: auto;
+        }
+
+        .highlight-box {
+            background: #eef6ff;
+            border-left: 6px solid #1a4b8c;
+            padding: 18px 22px;
+            margin: 20px 0;
+            border-radius: 0 8px 8px 0;
+        }
+
+        /* --- IMAGE DU SCHÉMA BDD (ajustée pour la légende) --- */
+        .schema-image-container {
+            text-align: center;
+            margin: 8px 0 4px 0;
+            border: 2px solid #0a0a2a;
+            border-radius: 8px;
+            background: #f8f9fc;
+            padding: 6px 8px;
+            page-break-inside: avoid;
+        }
+        .schema-image-container img {
+            max-width: 100%;
+            max-height: 500px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            cursor: zoom-in;
+        }
+        .schema-image-container .figcaption {
+            font-style: italic;
+            font-size: 11.5pt;
+            color: #333;
+            margin-top: 4px;
+            text-align: center;
+            border-top: 1px solid #dee2e6;
+            padding-top: 4px;
+        }
+        .schema-image-container .code-ref {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            color: #1a4b8c;
+            text-align: center;
+            margin-top: 2px;
+            display: block;
+        }
+
+        /* --- IMAGE EASTER EGG --- */
+        .easter-egg-image {
+            text-align: center;
+            margin: 15px 0;
+        }
+        .easter-egg-image img {
+            max-width: 100%;
+            max-height: 300px;
+            height: auto;
+            border: 1px solid #0a0a2a;
+            border-radius: 6px;
+            padding: 6px;
+            background: #f8f9fc;
+            cursor: zoom-in;
+        }
+        .easter-egg-image .figcaption {
+            font-style: italic;
+            font-size: 11.5pt;
+            color: #333;
+            margin-top: 6px;
+        }
+
+        /* --- GRILLE SCREENSHOTS --- */
+        .screenshot-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+            margin: 0 0 30px 0;
+        }
+        .screenshot-item {
+            background: #f8f9fc;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+            border: 1px solid #dee2e6;
+            page-break-inside: avoid;
+            break-inside: avoid;
+        }
+        .screenshot-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #e9ecef;
+            border-bottom: 3px solid #1a4b8c;
+            max-height: 280px;
+            object-fit: contain;
+            cursor: zoom-in;
+        }
+        .screenshot-item .caption {
+            padding: 12px 15px;
+            background: white;
+        }
+        .screenshot-item .caption h4 {
+            margin: 0 0 4px 0;
+            color: #0a0a2a;
+            font-size: 13pt;
+        }
+        .screenshot-item .caption p {
+            font-size: 11pt;
+            color: #333;
+            margin: 0;
+        }
+        .screenshot-item .code-ref {
+            font-family: 'Courier New', monospace;
+            font-size: 10pt;
+            color: #1a4b8c;
+            margin-top: 4px;
+            display: block;
+            border-top: 1px dashed #dee2e6;
+            padding-top: 4px;
+        }
+
+        /* --- LIGHTBOX (images et code) --- */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.92);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 10000;
+            cursor: zoom-out;
+            overflow: auto;
+            padding: 20px;
+        }
+        .lightbox-overlay .lightbox-content {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            cursor: default;
+            transition: transform 0.1s ease;
+            font-family: 'Courier New', monospace;
+            font-size: 14pt;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            max-width: 90%;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            overflow: auto;
+        }
+        .lightbox-overlay .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            object-fit: contain;
+            border-radius: 4px;
+        }
+        .lightbox-overlay .close-lightbox {
+            position: absolute;
+            top: 25px;
+            right: 35px;
+            font-size: 48px;
+            font-weight: bold;
+            color: #ffffff;
+            cursor: pointer;
+            transition: 0.2s;
+            line-height: 1;
+            font-family: Arial, sans-serif;
+            z-index: 10001;
+        }
+        .lightbox-overlay .close-lightbox:hover {
+            color: #1a4b8c;
+            transform: scale(1.1);
+        }
+        .lightbox-overlay .lightbox-content.zoomed {
+            transform: scale(1.5);
+        }
+
+        /* --- PIED DE PAGE AVEC URLs COMPLÈTES --- */
+        .footer {
+            margin-top: 50px;
+            padding-top: 20px;
+            border-top: 3px double #0a0a2a;
+            font-size: 12pt;
+            text-align: center;
+            color: #333;
+        }
+        .footer .github-links {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        .footer .github-links a {
+            color: #0a0a2a;
+            text-decoration: underline;
+            font-weight: 500;
+            padding: 4px 8px;
+            border-radius: 4px;
+            background: #f0f4f8;
+            border: 1px solid #dee2e6;
+            transition: background 0.2s;
+            word-break: break-all;
+            font-size: 11pt;
+        }
+        .footer .github-links a:hover {
+            background: #e2e6ea;
+        }
+
+        /* --- GESTION DES SAUTS DE PAGE --- */
+        .page-break-before {
+            page-break-before: always;
+        }
+        .page-keep-together {
+            page-break-inside: avoid;
+        }
+
+        @page {
+            margin: 2.2cm 2cm 2cm 2cm;
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+                font-size: 11pt;
+            }
+            .container {
+                max-width: 100%;
+                padding: 20px 25px !important;
+                box-shadow: none;
+                border-radius: 0;
+            }
+            .lightbox-overlay {
+                display: none !important;
+            }
+            h2, h3, h4 {
+                page-break-after: avoid;
+            }
+            table, .code-block, .schema-block, .schema-image-container, .highlight-box {
+                page-break-inside: avoid;
+            }
+            .toc ul {
+                columns: 1;
+            }
+            .cover-page {
+                page-break-after: always;
+            }
+            .screenshot-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+            .screenshot-item img {
+                max-height: 200px;
+                cursor: default;
+            }
+            .schema-image-container img {
+                max-height: 420px;
+            }
+            .footer .github-links a {
+                background: none;
+                border: none;
+                padding: 4px 8px;
+            }
+            .code-block {
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 2px solid #000000 !important;
+                box-shadow: none !important;
+                font-size: 7.5pt !important;
+                padding: 6px 10px !important;
+                cursor: default;
+            }
+            .code-block:hover {
+                background: #ffffff !important;
+            }
+            @page {
+                @bottom-center {
+                    content: "Page " counter(page) " / " counter(pages);
+                    font-size: 10pt;
+                    color: #555;
+                    font-family: 'Times New Roman', serif;
+                }
+            }
+            .cover-page, .toc {
+                page-break-after: always;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 20px; }
+            .screenshot-grid { grid-template-columns: 1fr; }
+            .cover-page h1 { font-size: 24pt; }
+            .toc ul { columns: 1; }
+            .footer .github-links { flex-direction: column; align-items: center; gap: 12px; }
+            .cover-logo img { max-width: 150px; }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <!-- ============================================================ -->
+    <!-- PAGE DE COUVERTURE                                             -->
+    <!-- ============================================================ -->
+    <div class="cover-page">
+        <h1>Dossier Personnel</h1>
+        <div class="sub">Développeur Web &amp; Web Mobile</div>
+        <div class="divider"></div>
+        <div style="font-size: 18pt; font-weight: bold; color: #1a4b8c; margin: 15px 0;">Goldorak DB</div>
+
+        <div class="cover-logo">
+            <img src="screenshots/GrendizerLogo.png" alt="Logo Goldorak" class="clickable-image">
+        </div>
+
+        <p style="text-align: center; font-size: 14pt; max-width: 700px; margin: 20px auto;">
+            Application full-stack de gestion de l'univers Goldorak<br>
+            (UFO Robot Grendizer)
+        </p>
+
+        <div class="badges-cover">
+            <img src="https://img.shields.io/badge/version-7.7.7-blue.svg" alt="Version">
+            <img src="https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen.svg" alt="Node">
+            <img src="https://img.shields.io/badge/react-19.2.0-61dafb.svg?logo=react" alt="React">
+            <img src="https://img.shields.io/badge/docker-ready-2496ED?logo=docker" alt="Docker">
+            <img src="https://img.shields.io/badge/Express-5.x-000000?logo=express" alt="Express">
+            <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?logo=mysql&logoColor=white" alt="MySQL">
+            <img src="https://img.shields.io/badge/Auth-OAuth2-3b82f6?logo=oauth" alt="OAuth2">
+            <img src="https://img.shields.io/badge/license-ISC-yellow.svg" alt="License">
+        </div>
+
+        <div class="meta">
+            <strong>Benjamin ASTIER</strong><br>
+            La Plateforme — Martigues<br>
+            Session 2025-2026<br>
+            <span style="font-size: 12pt; color: #555;">Version du dossier : 12/05/2026</span>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SOMMAIRE DÉTAILLÉ (CLIQUABLE)                                 -->
+    <!-- ============================================================ -->
+    <div class="toc">
+        <h2>Sommaire détaillé</h2>
+        <ul>
+            <li><a href="#section1">1. Contexte et objectifs du projet <span>p.1</span></a></li>
+            <li><a href="#section2">2. Analyse fonctionnelle et besoins <span>p.3</span></a></li>
+            <li><a href="#section3">3. Spécifications techniques globales <span>p.5</span></a></li>
+            <li><a href="#section4">4. Architecture logicielle (couches) <span>p.7</span></a></li>
+            <li><a href="#section5">5. Modélisation de la base de données <span>p.9</span></a></li>
+            <li><a href="#section5-1">5.1 Dictionnaire des données <span>p.11</span></a></li>
+            <li><a href="#section5-2">5.2 Contraintes d'intégrité &amp; 6. Backend <span>p.13</span></a></li>
+            <li><a href="#section6-1">6.1 Middlewares et sécurité JWT <span>p.15</span></a></li>
+            <li><a href="#section6-2">6.2 Endpoints détaillés <span>p.17</span></a></li>
+            <li><a href="#section7">7. Frontend (React 19) <span>p.19</span></a></li>
+            <li><a href="#section8">8. Authentification OAuth2 et mode invité <span>p.21</span></a></li>
+            <li><a href="#section9">9. Conteneurisation Docker <span>p.23</span></a></li>
+            <li><a href="#section10">10. Fonctionnalités transverses <span>p.25</span></a></li>
+            <li><a href="#section11">11. Captures d'écran (preuves) <span>p.27</span></a></li>
+            <li><a href="#section12">12. Conclusion <span>p.29</span></a></li>
+            <li><a href="#annexe-a">Annexe A : Glossaire <span>p.31</span></a></li>
+            <li><a href="#annexe-b">Annexe B : Dépendances npm <span>p.33</span></a></li>
+            <li><a href="#annexe-c">Annexe C : Planning <span>p.35</span></a></li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 1 & 1.1 (une page)                                  -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together" id="section1">
+        <h2>1. Contexte et objectifs du projet</h2>
+        <p>
+            Le projet <strong>Goldorak DB</strong> s'inscrit dans le cadre de ma formation de <strong>Développeur Web et Web Mobile</strong> à l'école La Plateforme (Martigues). Ce projet personnel vise à démontrer l'ensemble des compétences acquises durant le cycle de formation, en couvrant l'intégralité du cycle de développement d'une application web moderne.
+        </p>
+        <p>
+            L'univers de <em>Goldorak (UFO Robot Grendizer)</em>, créé par Go Nagai, est une série culte des années 1970-1980. Elle regorge de personnages, de robots, de vaisseaux, d'armes et de monstres. L'objectif de cette application est de proposer aux fans une <strong>base de données interactive, sécurisée et immersive</strong> permettant de consulter, rechercher, ajouter, modifier et supprimer des entités liées à cette saga.
+        </p>
+        <div class="highlight-box">
+            <strong>Public cible :</strong> Fans de Goldorak, passionnés de mecha, collectionneurs, et étudiants en développement web souhaitant explorer une architecture full-stack conteneurisée.
+        </div>
+        <p>
+            Le projet répond à un besoin de <strong>centralisation des données</strong> dispersées sur de multiples wikis et forums. Il apporte une <strong>interface moderne, responsive et sécurisée</strong>, avec des fonctionnalités avancées comme l'authentification sociale (OAuth2), un mode invité, un lecteur musical thématique, et un easter egg pour les fans de jeux vidéo rétro.
+        </p>
+        <h3>1.1 Périmètre fonctionnel</h3>
+        <ul>
+            <li><strong>Gestion des personnages</strong> : CRUD complet, champs (nom FR/JP, faction, rôle, âge, planète d'origine, description).</li>
+            <li><strong>Gestion des robots</strong> : CRUD complet, lien vers un pilote (personnage), type, hauteur, poids, description.</li>
+            <li><strong>Gestion des armes</strong> : CRUD complet, lien vers un robot, puissance, fréquence d'utilisation.</li>
+            <li><strong>Gestion des vaisseaux</strong> : CRUD complet, lien vers un pilote (optionnel), type, faction.</li>
+            <li><strong>Gestion des épisodes</strong> : CRUD complet, titres FR/JP, numéros, dates de diffusion, résumé.</li>
+            <li><strong>Gestion des monstres</strong> : CRUD complet, lien vers un épisode d'apparition, type, taille, puissance.</li>
+            <li><strong>Tableau de bord</strong> : Statistiques en temps réel, statut de l'API, informations utilisateur.</li>
+            <li><strong>Recherche et filtrage</strong> : Barre de recherche avec debounce (300ms) et pagination (10/20/50/100).</li>
+            <li><strong>Export CSV</strong> : Téléchargement des données de chaque entité au format CSV.</li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 2 & 2.2 (une page)                                  -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section2">
+        <h2>2. Analyse fonctionnelle et besoins</h2>
+        <h3>2.1 Cas d'utilisation principaux</h3>
+        <ul>
+            <li><strong>Acteur : Utilisateur non authentifié</strong>
+                <ul>
+                    <li>Accéder à la page de connexion.</li>
+                    <li>Se connecter via Google OAuth, GitHub OAuth ou en mode invité.</li>
+                </ul>
+            </li>
+            <li><strong>Acteur : Utilisateur authentifié (lecture seule - invité)</strong>
+                <ul>
+                    <li>Consulter toutes les entités (personnages, robots, armes, etc.).</li>
+                    <li>Effectuer des recherches et filtrer les résultats.</li>
+                    <li>Exporter les données en CSV.</li>
+                    <li>Accéder au tableau de bord.</li>
+                    <li><em>Actions CRUD désactivées.</em></li>
+                </ul>
+            </li>
+            <li><strong>Acteur : Utilisateur authentifié (admin - OAuth)</strong>
+                <ul>
+                    <li>Réaliser toutes les actions de l'invité.</li>
+                    <li>Ajouter, modifier et supprimer des entités (CRUD complet).</li>
+                    <li>Gérer les relations entre entités (ex : assigner un pilote à un robot).</li>
+                </ul>
+            </li>
+        </ul>
+        <h3>2.2 Spécifications fonctionnelles détaillées</h3>
+        <ul>
+            <li><strong>Recherche avancée</strong> : La recherche s'effectue sur plusieurs champs (nom_fr, nom_jp, description, etc.) avec une insensibilité à la casse. Le déclenchement est différé de 300ms pour éviter les appels API intempestifs, et ne s'active qu'à partir de 2 caractères.</li>
+            <li><strong>Pagination</strong> : Les listes sont paginées côté serveur. L'utilisateur peut choisir le nombre d'éléments par page via un sélecteur dédié. Les boutons de navigation (précédent/suivant) sont stylisés aux couleurs de Goldorak.</li>
+            <li><strong>Tooltip de description</strong> : Toute description longue est affichée dans une modale/overlay au clic. Un seul tooltip est ouvert à la fois, et il se ferme automatiquement au scroll ou en cliquant à l'extérieur.</li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 3 (une page)                                        -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section3">
+        <h2>3. Spécifications techniques globales</h2>
+        <p>
+            L'application est développée selon une architecture <strong>full-stack</strong> séparée en deux parties : le frontend (client) et le backend (serveur). La communication s'effectue via une API REST sécurisée par JWT. L'ensemble est conteneurisé avec Docker pour garantir la reproductibilité des environnements.
+        </p>
+        <table>
+            <thead>
+                <tr><th>Composant</th><th>Technologie</th><th>Version</th><th>Rôle</th></tr>
+            </thead>
+            <tbody>
+                <tr><td>Frontend</td><td>React</td><td>19.2.0</td><td>Interface utilisateur dynamique et réactive</td></tr>
+                <tr><td>Frontend</td><td>Vite</td><td>7.2.5</td><td>Outils de build et serveur de développement HMR</td></tr>
+                <tr><td>Frontend</td><td>React Router DOM</td><td>7.13.0</td><td>Routage côté client</td></tr>
+                <tr><td>Backend</td><td>Node.js</td><td>20.15.0 LTS</td><td>Runtime JavaScript serveur</td></tr>
+                <tr><td>Backend</td><td>Express</td><td>5.2.1</td><td>Framework web pour l'API REST</td></tr>
+                <tr><td>Backend</td><td>Passport.js</td><td>0.7.0</td><td>Middleware d'authentification OAuth2</td></tr>
+                <tr><td>Backend</td><td>jsonwebtoken</td><td>9.0.3</td><td>Génération et vérification des JWT</td></tr>
+                <tr><td>Base de données</td><td>MySQL</td><td>8.0</td><td>SGBDR relationnel</td></tr>
+                <tr><td>Driver BDD</td><td>mysql2 (promise)</td><td>3.16.3</td><td>Accès asynchrone à MySQL</td></tr>
+                <tr><td>Validation</td><td>express-validator</td><td>7.3.1</td><td>Validation des requêtes entrantes</td></tr>
+                <tr><td>Logging</td><td>Winston</td><td>3.11.0</td><td>Journalisation des événements et erreurs</td></tr>
+                <tr><td>Conteneurisation</td><td>Docker</td><td>24.x</td><td>Isolation et packaging des services</td></tr>
+                <tr><td>Orchestration</td><td>Docker Compose</td><td>2.x</td><td>Gestion multi-services</td></tr>
+                <tr><td>Serveur Web (prod)</td><td>Nginx</td><td>stable-alpine</td><td>Hébergement statique du build frontend</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 4 (une page)                                        -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section4">
+        <h2>4. Architecture logicielle (couches)</h2>
+        <p>
+            L'architecture est organisée selon un modèle <strong>client-serveur</strong> classique, avec une séparation stricte des responsabilités.
+        </p>
+        <div class="schema-block">
+        ┌─────────────────────────────────────────────────────────────┐
+        │                       NAVIGATEUR (CLIENT)                   │
+        │  ┌───────────────────────────────────────────────────────┐  │
+        │  │               FRONTEND (React / Vite)                 │  │
+        │  │  - Composants UI (JSX, CSS)                           │  │
+        │  │  - Hooks personnalisés (useFetchData, useFormFields)  │  │
+        │  │  - Contextes (AuthContext)                            │  │
+        │  │  - Routage (React Router)                             │  │
+        │  └───────────────────┬───────────────────────────────────┘  │
+        │                      │ API REST (fetch / Axios)             │
+        │                      │ Headers: Authorization: Bearer JWT   │
+        └──────────────────────┼──────────────────────────────────────┘
+                               │
+                               ▼
+        ┌─────────────────────────────────────────────────────────────┐
+        │                    SERVEUR BACKEND                          │
+        │  ┌───────────────────────────────────────────────────────┐  │
+        │  │              EXPRESS - MIDDLEWARES                    │  │
+        │  │  - CORS, JSON parsing, Logging (Winston)              │  │
+        │  │  - Auth Middleware (JWT verification)                 │  │
+        │  │  - Validation (express-validator)                     │  │
+        │  └───────────────────┬───────────────────────────────────┘  │
+        │  ┌───────────────────────────────────────────────────────┐  │
+        │  │               ROUTES API (v1)                         │  │
+        │  │  /personnages, /robots, /armes, /vaisseaux,           │  │
+        │  │  /episodes, /monstres, /auth, /stats, /health         │  │
+        │  └───────────────────┬───────────────────────────────────┘  │
+        │  ┌───────────────────────────────────────────────────────┐  │
+        │  │        COUCHE D'ACCÈS AUX DONNÉES (mysql2/promise)    │  │
+        │  │  - Requêtes préparées (anti-injection SQL)            │  │
+        │  │  - Gestion des transactions                           │  │
+        │  └───────────────────┬───────────────────────────────────┘  │
+        └──────────────────────┼──────────────────────────────────────┘
+                               │
+                               ▼
+        ┌─────────────────────────────────────────────────────────────┐
+        │                 BASE DE DONNÉES (MySQL 8.0)                 │
+        │  - 7 tables (personnages, robots, armes, vaisseaux,         │
+        │    episodes, monstres, users)                               │
+        │  - Contraintes de clés étrangères                           │
+        │  - Index pour les recherches                                │
+        └─────────────────────────────────────────────────────────────┘
+        </div>
+        <p>
+            Cette architecture en couches permet une <strong>maintenabilité</strong> et une <strong>évolutivité</strong> optimales. Chaque couche est testable indépendamment.
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 5 (une page, image ajustée + légende complète)      -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section5">
+        <h2>5. Modélisation de la base de données</h2>
+        <p style="margin-bottom: 4px;">
+            La base de données a été conçue selon les règles de la <strong>Troisième Forme Normale (3FN)</strong> afin d'éliminer toute redondance et garantir l'intégrité des données. Le diagramme entité-association ci-dessous illustre les 7 tables et leurs relations. La table <strong><code>users</code></strong>, dédiée à l'authentification, est volontairement isolée car elle n'a pas de relation directe avec les tables de l'univers Goldorak (elle sert uniquement à la gestion des comptes OAuth et invités).
+        </p>
+        <div class="schema-image-container">
+            <img src="screenshots/07-schema-bdd.png" alt="Schéma relationnel de la base de données Goldorak DB" class="clickable-image">
+            <div class="figcaption">
+                Figure 5 : Diagramme entité-association (MCD) — 7 tables avec leurs relations et contraintes.
+            </div>
+            <span class="code-ref">📄 fichier mysql/init.sql</span>
+        </div>
+        <p style="margin-top: 2px; font-style: italic;">
+            <strong>Légende :</strong> Les flèches pleines représentent des relations avec contraintes (ON DELETE CASCADE / SET NULL). La table <code>users</code> est représentée à part car elle sert exclusivement à l'authentification (OAuth2 et mode invité) et n'interfère pas avec les données de l'univers.
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 5.1 (une page)                                      -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section5-1">
+        <h3>5.1 Dictionnaire des données (extrait)</h3>
+        <table>
+            <thead><tr><th>Table</th><th>Colonne</th><th>Type</th><th>Contrainte</th><th>Description</th></tr></thead>
+            <tbody>
+                <tr><td>personnages</td><td>id</td><td>INT</td><td>PRIMARY KEY AUTO_INCREMENT</td><td>Identifiant unique</td></tr>
+                <tr><td>personnages</td><td>nom_fr</td><td>VARCHAR(100)</td><td>NOT NULL</td><td>Nom français du personnage</td></tr>
+                <tr><td>personnages</td><td>planete_origine</td><td>VARCHAR(100)</td><td>NULL</td><td>Planète d'origine (Euphor, Terre, Vega, etc.)</td></tr>
+                <tr><td>robots</td><td>pilote_id</td><td>INT</td><td>FOREIGN KEY (personnages.id) ON DELETE SET NULL</td><td>Référence au pilote</td></tr>
+                <tr><td>armes</td><td>robot_id</td><td>INT</td><td>FOREIGN KEY (robots.id) ON DELETE CASCADE</td><td>Robot propriétaire</td></tr>
+                <tr><td>monstres</td><td>episode_id</td><td>INT</td><td>FOREIGN KEY (episodes.id) ON DELETE SET NULL</td><td>Épisode d'apparition</td></tr>
+                <tr><td>users</td><td>id</td><td>INT</td><td>PRIMARY KEY AUTO_INCREMENT</td><td>Identifiant unique de l'utilisateur</td></tr>
+                <tr><td>users</td><td>oauth_provider</td><td>VARCHAR(50)</td><td>NOT NULL</td><td>google, github, guest</td></tr>
+                <tr><td>users</td><td>email</td><td>VARCHAR(255)</td><td>UNIQUE</td><td>Adresse email de l'utilisateur</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 5.2 & 6 (une page)                                  -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section5-2">
+        <h3>5.2 Contraintes d'intégrité</h3>
+        <p>Les contraintes suivantes garantissent la cohérence des données :</p>
+        <ul>
+            <li><strong>ON DELETE CASCADE</strong> : Appliquée sur <code>armes.robot_id</code>. Si un robot est supprimé, toutes ses armes sont automatiquement supprimées.</li>
+            <li><strong>ON DELETE SET NULL</strong> : Appliquée sur <code>robots.pilote_id</code>, <code>vaisseaux.pilote_id</code> et <code>monstres.episode_id</code>. Si un personnage ou un épisode est supprimé, la référence devient NULL (pas de perte en cascade).</li>
+            <li><strong>UNIQUE</strong> : Sur <code>users.email</code> pour éviter les doublons de comptes.</li>
+        </ul>
+
+        <h2 id="section6">6. Développement Backend (API REST)</h2>
+        <p>
+            Le backend est construit avec <strong>Node.js</strong> et <strong>Express</strong>. Il expose une API REST versionnée (prefixe <code>/api/v1</code>). Toutes les routes sensibles sont protégées par un middleware d'authentification JWT. Les données sont validées à l'aide d'<code>express-validator</code> avant toute opération en base.
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 6.1 (une page)                                      -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section6-1">
+        <h3>6.1 Middlewares et sécurité JWT</h3>
+        <p>
+            Le middleware <code>authMiddleware.js</code> vérifie la présence et la validité du token JWT dans l'en-tête <code>Authorization</code>. Si le token est manquant, invalide ou expiré, une réponse <code>401 Unauthorized</code> est renvoyée.
+        </p>
+        <div class="code-block clickable-code">
+            // Extrait de authMiddleware.js
+            const jwt = require('jsonwebtoken');
+            module.exports = (req, res, next) => {
+                const authHeader = req.headers.authorization;
+                if (!authHeader || !authHeader.startsWith('Bearer ')) {
+                    return res.status(401).json({ message: 'Token manquant ou mal formé' });
+                }
+                const token = authHeader.split(' ')[1];
+                try {
+                    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+                    req.user = decoded;
+                    next();
+                } catch (err) {
+                    return res.status(403).json({ message: 'Token invalide ou expiré' });
+                }
+            };
+        </div>
+        <p>
+            Ce middleware est appliqué sur toutes les routes CRUD. Les routes d'authentification (<code>/auth/*</code>), de santé (<code>/health</code>) et d'easter egg (<code>/easter-egg</code>) sont publiques.
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 6.2 : Tableau (une page)                            -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section6-2">
+        <h3>6.2 Endpoints détaillés</h3>
+        <table>
+            <thead><tr><th>Méthode</th><th>Endpoint</th><th>Description</th><th>Protection</th></tr></thead>
+            <tbody>
+                <tr><td>GET</td><td>/personnages</td><td>Liste paginée des personnages</td><td>JWT</td></tr>
+                <tr><td>GET</td><td>/personnages/:id</td><td>Détail d'un personnage</td><td>JWT</td></tr>
+                <tr><td>POST</td><td>/personnages</td><td>Création d'un personnage</td><td>JWT</td></tr>
+                <tr><td>PATCH</td><td>/personnages/:id</td><td>Modification partielle</td><td>JWT</td></tr>
+                <tr><td>DELETE</td><td>/personnages/:id</td><td>Suppression</td><td>JWT</td></tr>
+                <tr><td>GET</td><td>/robots</td><td>Liste des robots</td><td>JWT</td></tr>
+                <tr><td>POST</td><td>/robots</td><td>Création d'un robot</td><td>JWT</td></tr>
+                <tr><td>GET</td><td>/armes</td><td>Liste des armes</td><td>JWT</td></tr>
+                <tr><td>...</td><td>...</td><td>Même pattern pour vaisseaux, episodes, monstres</td><td>...</td></tr>
+                <tr><td>GET</td><td>/stats</td><td>Statistiques globales (COUNT par table)</td><td>JWT</td></tr>
+                <tr><td>GET</td><td>/health</td><td>Statut de l'API et de la connexion DB</td><td>Public</td></tr>
+                <tr><td>POST</td><td>/auth/guest</td><td>Création d'un compte invité</td><td>Public</td></tr>
+                <tr><td>GET</td><td>/auth/verify</td><td>Vérification du token JWT</td><td>JWT</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 6.2 (Exemple) + 7 & 7.1 (une page)                 -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section7">
+        <p>
+            <strong>Exemple de requête de création (POST /personnages) :</strong>
+        </p>
+        <div class="code-block clickable-code" style="font-size: 9pt; padding: 10px 14px;">
+            {
+                "nom_fr": "Actarus",
+                "nom_jp": "デューク・フリード",
+                "faction": "Terre",
+                "role": "Héros",
+                "age": 19,
+                "planete_origine": "Euphor",
+                "description": "Prince de la planète Euphor, pilote du Goldorak."
+            }
+        </div>
+
+        <h2>7. Développement Frontend (React 19)</h2>
+        <p>
+            Le frontend est une <strong>Single Page Application (SPA)</strong> développée avec React 19 et Vite. Elle communique avec l'API backend via des requêtes HTTP (fetch/Axios) et gère l'état global via le contexte d'authentification (<code>AuthContext</code>).
+        </p>
+        <h3>7.1 Composants et hooks personnalisés</h3>
+        <ul>
+            <li><strong>useFetchData.js</strong> : Hook générique pour les opérations CRUD. Gère chargement, erreur, pagination, recherche et appels API.</li>
+            <li><strong>useFormFields.js</strong> : Configure dynamiquement les champs des formulaires en fonction de l'entité.</li>
+            <li><strong>useReferenceData.js</strong> : Récupère les données des relations (ex : liste des personnages pour le formulaire robot). Formate en <code>ID X = Nom</code>.</li>
+            <li><strong>useKonamiCode.js</strong> : Écoute la séquence <code>↑ ↑ ↓ ↓ ← → ← → B A</code> et déclenche l'easter egg.</li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 7.2 (une page)                                      -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section7-2">
+        <h3>7.2 Gestion d'état et routage</h3>
+        <p>
+            L'état d'authentification est géré par <code>AuthContext</code> qui stocke l'utilisateur courant et le token JWT. Le composant <code>ProtectedRoute</code> vérifie l'authentification avant de rendre les routes privées.
+        </p>
+        <div class="code-block clickable-code">
+            // Extrait du routage (AppWithAuth.jsx)
+            &lt;Routes&gt;
+                &lt;Route path="/login" element={&lt;Login /&gt;} /&gt;
+                &lt;Route path="/auth/callback" element={&lt;AuthCallback /&gt;} /&gt;
+                &lt;Route element={&lt;ProtectedRoute /&gt;}&gt;
+                    &lt;Route path="/" element={&lt;Dashboard /&gt;} /&gt;
+                    &lt;Route path="/personnages" element={&lt;Personnages /&gt;} /&gt;
+                    &lt;Route path="/robots" element={&lt;Robots /&gt;} /&gt;
+                    &lt;Route path="/armes" element={&lt;Armes /&gt;} /&gt;
+                    &lt;Route path="/vaisseaux" element={&lt;Vaisseaux /&gt;} /&gt;
+                    &lt;Route path="/episodes" element={&lt;Episodes /&gt;} /&gt;
+                    &lt;Route path="/monstres" element={&lt;Monstres /&gt;} /&gt;
+                &lt;/Route&gt;
+            &lt;/Routes&gt;
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 8 (une page)                                        -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section8">
+        <h2>8. Authentification OAuth2 et mode invité</h2>
+        <p>
+            L'authentification repose sur <strong>Passport.js</strong> avec les stratégies Google et GitHub. L'utilisateur est redirigé vers le fournisseur d'identité, puis revient sur le callback backend qui génère un <strong>JWT</strong> et redirige vers le frontend avec le token en paramètre.
+        </p>
+        <div class="highlight-box">
+            <strong>Mode invité :</strong> Permet un accès rapide en lecture seule sans configuration de compte. Un utilisateur fictif est créé en base avec le provider 'guest'. Son token JWT est retourné immédiatement.
+        </div>
+        <p>
+            <strong>Flux OAuth2 typique :</strong>
+        </p>
+        <ul>
+            <li>Utilisateur clique sur "Se connecter avec Google".</li>
+            <li>Redirection vers Google OAuth.</li>
+            <li>Google redirige vers <code>/api/v1/auth/google/callback</code> avec un code d'autorisation.</li>
+            <li>Le backend échange le code contre les informations du profil utilisateur.</li>
+            <li>L'utilisateur est créé ou mis à jour en base.</li>
+            <li>Un JWT est généré et l'utilisateur est redirigé vers <code>/auth/callback?token=...</code>.</li>
+            <li>Le frontend stocke le token dans <code>localStorage</code> et redirige vers le tableau de bord.</li>
+        </ul>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 9 (une page)                                        -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section9">
+        <h2>9. Conteneurisation et déploiement (Docker)</h2>
+        <p style="margin-bottom: 4px;">
+            L'application est entièrement conteneurisée avec <strong>Docker</strong> et orchestrée avec <strong>Docker Compose</strong>. Trois services sont définis :
+        </p>
+        <ul style="margin-bottom: 4px;">
+            <li><strong>db</strong> : MySQL 8.0 avec volume persistant et health check.</li>
+            <li><strong>backend</strong> : Node.js / Express. Image <code>node:20-alpine</code>.</li>
+            <li><strong>frontend</strong> : Build multi-stage. Vite en dev, Nginx <code>stable-alpine</code> en production.</li>
+        </ul>
+        <div class="code-block clickable-code" style="font-size: 8.5pt; padding: 8px 12px;">
+            # Extrait de docker-compose.yml
+            version: '3.8'
+            services:
+              db:
+                image: mysql:8.0
+                container_name: goldorak-db
+                environment:
+                  MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+                  MYSQL_DATABASE: ${MYSQL_DATABASE}
+                volumes:
+                  - mysql_data:/var/lib/mysql
+                  - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql
+                ports:
+                  - "3307:3306"
+                healthcheck:
+                  test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+                  interval: 10s
+                  timeout: 5s
+                  retries: 5
+
+              backend:
+                build: ./backend
+                container_name: goldorak-backend
+                ports:
+                  - "8800:8800"
+                environment:
+                  - DB_HOST=db
+                  - DB_PORT=3306
+                  - DB_USER=root
+                  - DB_PASSWORD=${MYSQL_ROOT_PASSWORD}
+                  - DB_NAME=${MYSQL_DATABASE}
+                  - JWT_SECRET=${JWT_SECRET}
+                depends_on:
+                  db:
+                    condition: service_healthy
+                volumes:
+                  - ./backend:/app
+                  - /app/node_modules
+
+              frontend:
+                build:
+                  context: ./frontend
+                  dockerfile: Dockerfile.dev
+                container_name: goldorak-frontend
+                ports:
+                  - "5173:5173"
+                volumes:
+                  - ./frontend:/app
+                  - /app/node_modules
+                environment:
+                  - VITE_API_URL=http://localhost:8800/api/v1
+                depends_on:
+                  - backend
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 10 (une page)                                       -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section10">
+        <h2>10. Fonctionnalités transverses</h2>
+        <h3>10.1 Lecteur audio</h3>
+        <p>
+            Un lecteur audio thématique est intégré dans l'en-tête. Il utilise l'API <strong>HTML5 Audio</strong> et ne nécessite aucune dépendance externe. Il permet de diffuser 4 pistes MP3 emblématiques. Une playlist interactive permet de sélectionner directement un morceau.
+        </p>
+
+        <h3>10.2 Easter Egg (Code Konami)</h3>
+        <p>
+            Un clin d'œil aux jeux vidéo rétro : la séquence <strong>↑ ↑ ↓ ↓ ← → ← → B A</strong> déclenche une animation/surprise. Un appel API est envoyé au backend pour tracer l'événement. Voici une illustration de l'effet produit :
+        </p>
+        <div class="easter-egg-image">
+            <img src="screenshots/easterEGG2.png" alt="Capture de l'Easter Egg Code Konami" class="clickable-image">
+            <div class="figcaption">Figure 6 : Déclenchement de l'Easter Egg (Code Konami) dans l'application.</div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 11 : Captures d'écran (preuves)                     -->
+    <!-- ============================================================ -->
+    <div class="page-break-before" id="section11">
+        <h2>11. Captures d'écran (preuves)</h2>
+        <p style="margin-bottom: 0px;">
+            Les captures suivantes illustrent concrètement les fonctionnalités développées. <span style="background: #ffecb3; padding: 2px 10px; border-radius: 12px; font-size: 11pt;">Cliquez sur une image pour l'agrandir</span>
+        </p>
+
+        <div class="screenshot-grid">
+            <!-- 01-login.png + 01-login2.png -->
+            <div class="screenshot-item">
+                <img src="screenshots/01-login.png" alt="Page de connexion" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Page de connexion</h4>
+                    <p>Authentification Google/GitHub et mode invité.</p>
+                    <span class="code-ref">📄 frontend/src/components/Login.jsx</span>
+                    <span class="code-ref">🔗 http://localhost:5173/login</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/01-login2.png" alt="Extrait code Login.jsx" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Login.jsx - Extrait des boutons</h4>
+                    <p>Composant React avec les boutons OAuth et invité.</p>
+                    <span class="code-ref">📄 frontend/src/components/Login.jsx</span>
+                </div>
+            </div>
+
+            <!-- 02-dashboard.png + 02-dashboard2.png -->
+            <div class="screenshot-item">
+                <img src="screenshots/02-dashboard.png" alt="Tableau de bord" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Tableau de bord</h4>
+                    <p>Volumes de données, statut API, informations utilisateur.</p>
+                    <span class="code-ref">📄 frontend/src/AppWithAuth.jsx</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/02-dashboard2.png" alt="Extrait code AppWithAuth.jsx" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>AppWithAuth.jsx - Panneau de statut</h4>
+                    <p>Affichage du statut API et des statistiques.</p>
+                    <span class="code-ref">📄 frontend/src/AppWithAuth.jsx</span>
+                </div>
+            </div>
+
+            <!-- 03-personnages.png + 03-personnages2.png + 03-personnages3.png -->
+            <div class="screenshot-item">
+                <img src="screenshots/03-personnages.png" alt="Catalogue des personnages" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Catalogue des personnages</h4>
+                    <p>Vue générale avec badges de faction.</p>
+                    <span class="code-ref">📄 frontend/src/components/Personnages.jsx</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/03-personnages2.png" alt="Extrait code Personnages.jsx" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Personnages.jsx - Tableau avec badges</h4>
+                    <p>Rendu du tableau avec les badges de faction.</p>
+                    <span class="code-ref">📄 frontend/src/components/Personnages.jsx</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/03-personnages3.png" alt="Tooltip description" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Tooltip de description</h4>
+                    <p>Affichage des descriptions longues au clic.</p>
+                    <span class="code-ref">📄 frontend/src/components/DescriptionCell.jsx</span>
+                </div>
+            </div>
+
+            <!-- 04-crud-modal.png + 04-crud-modal2.png -->
+            <div class="screenshot-item">
+                <img src="screenshots/04-crud-modal.png" alt="Modal CRUD" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Modal CRUD dynamique</h4>
+                    <p>Champs relationnels affichant "ID X = Nom".</p>
+                    <span class="code-ref">📄 frontend/src/components/Modal.jsx (extrait du rendu des champs select avec référence)</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/04-crud-modal2.png" alt="Extrait code Modal.jsx" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Modal.jsx - Champ relationnel</h4>
+                    <p>Affichage "ID X = Nom" pour les références.</p>
+                    <span class="code-ref">📄 frontend/src/components/Modal.jsx</span>
+                </div>
+            </div>
+
+            <!-- 05-music-player.png + 05-music-player2.png -->
+            <div class="screenshot-item">
+                <img src="screenshots/05-music-player.png" alt="Lecteur audio" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Lecteur musical</h4>
+                    <p>Playlist de 4 titres, contrôle lecture/pause.</p>
+                    <span class="code-ref">📄 frontend/src/components/MusicPlayer.jsx</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/05-music-player2.png" alt="Extrait code MusicPlayer.jsx" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>MusicPlayer.jsx - Playlist interactive</h4>
+                    <p>Affichage de la playlist et sélection des morceaux.</p>
+                    <span class="code-ref">📄 frontend/src/components/MusicPlayer.jsx</span>
+                </div>
+            </div>
+
+            <!-- 06-api-health.png + 06-api-health.png2 -->
+            <div class="screenshot-item">
+                <img src="screenshots/06-api-health.png" alt="API Health Check" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>API Health Check</h4>
+                    <p>Endpoint /health avec connexion à MySQL.</p>
+                    <span class="code-ref">🔗 curl http://localhost:8800/api/v1/health</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/06-api-health.png2.png" alt="Réponse JSON /health" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Réponse JSON /health</h4>
+                    <p>Statut "online" confirmant la connexion DB.</p>
+                    <span class="code-ref">🔗 curl http://localhost:8800/api/v1/health</span>
+                </div>
+            </div>
+
+            <!-- 07-schema-bdd.png + 07-schema-bdd2.png + 07-schema-bdd3.png -->
+            <div class="screenshot-item">
+                <img src="screenshots/07-schema-bdd.png" alt="Schéma BDD" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Schéma BDD (3FN)</h4>
+                    <p>Diagramme entité-association avec 7 tables et contraintes.</p>
+                    <span class="code-ref">📄 fichier mysql/init.sql</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/07-schema-bdd2.png" alt="Statistiques tables MySQL" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Statistiques des tables</h4>
+                    <p>Informations sur les tables InnoDB.</p>
+                    <span class="code-ref">📄 fichier mysql/init.sql</span>
+                </div>
+            </div>
+            <div class="screenshot-item">
+                <img src="screenshots/07-schema-bdd3.png" alt="Clés étrangères" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Clés étrangères</h4>
+                    <p>Extrait des contraintes FOREIGN KEY.</p>
+                    <span class="code-ref">📄 fichier mysql/init.sql</span>
+                </div>
+            </div>
+
+            <!-- 08-docker-compose.png -->
+            <div class="screenshot-item">
+                <img src="screenshots/08-docker-compose.png" alt="Docker Compose" class="clickable-screenshot">
+                <div class="caption">
+                    <h4>Docker & Orchestration</h4>
+                    <p>Extrait du docker-compose.yml avec health check.</p>
+                    <span class="code-ref">📄 fichier docker-compose.yml à la racine du projet.</span>
+                </div>
+            </div>
+        </div>
+
+        <p style="font-size: 11pt; color: #666; margin-top: -5px;">
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- CHAPITRE 12 (une page)                                       -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="section12">
+        <h2>12. Conclusion et compétences validées</h2>
+        <p>
+            Le projet <strong>Goldorak DB V1 Reload</strong> couvre de manière exhaustive l'ensemble du périmètre du titre professionnel <strong>"Développeur Web et Web Mobile"</strong>. Il démontre ma capacité à mener un projet de bout en bout, de l'analyse des besoins à la conteneurisation, en passant par la conception de base de données, le développement backend et frontend, et la mise en place d'une sécurité robuste.
+        </p>
+        <h3>Compétences validées :</h3>
+        <ul>
+            <li><strong>Frontend</strong> : Maquettage (Figma), React 19, hooks, routage, responsive design, tooltips, lecteur audio.</li>
+            <li><strong>Backend</strong> : API REST Express, OAuth2 (Google/GitHub), JWT, validation, logging Winston.</li>
+            <li><strong>Base de données</strong> : Modélisation 3FN, scripts SQL, relations, requêtes préparées.</li>
+            <li><strong>Déploiement</strong> : Docker, Docker Compose, build multi-stage (React → Nginx), variables d'environnement.</li>
+            <li><strong>Qualité et sécurité</strong> : Anti-injection SQL, CORS, cookies sécurisés, mode invité.</li>
+        </ul>
+        <p style="font-style: italic; margin-top: 20px; border-top: 2px solid #1a4b8c; padding-top: 20px;">
+            Ce projet incarne ma passion pour le développement web, mon souci du détail technique, et ma capacité à livrer une application professionnelle, immersive et parfaitement documentée.
+        </p>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ANNEXE A (une page)                                          -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="annexe-a">
+        <h2>Annexes</h2>
+        <h3>Annexe A : Glossaire technique</h3>
+        <table>
+            <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
+            <tbody>
+                <tr><td>JWT</td><td>JSON Web Token. Standard pour l'échange sécurisé de jetons d'authentification.</td></tr>
+                <tr><td>OAuth2</td><td>Protocole d'autorisation déléguée permettant de s'authentifier via un tiers de confiance.</td></tr>
+                <tr><td>CRUD</td><td>Create, Read, Update, Delete. Les quatre opérations de base sur les données.</td></tr>
+                <tr><td>SPA</td><td>Single Page Application. Application web où le chargement des pages se fait de manière dynamique sans rechargement complet.</td></tr>
+                <tr><td>HMR</td><td>Hot Module Replacement. Technique permettant de mettre à jour les modules sans recharger la page.</td></tr>
+                <tr><td>3FN</td><td>Troisième Forme Normale. Niveau de normalisation d'une base de données relationnelle.</td></tr>
+                <tr><td>Middleware</td><td>Fonction interceptant les requêtes HTTP pour effectuer des traitements (authentification, validation, logging).</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ANNEXE B (une page)                                          -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="annexe-b">
+        <h3>Annexe B : Dépendances complètes (npm)</h3>
+        <table>
+            <thead><tr><th>Package</th><th>Version</th><th>Environnement</th></tr></thead>
+            <tbody>
+                <tr><td>react</td><td>19.2.0</td><td>Frontend</td></tr>
+                <tr><td>react-dom</td><td>19.2.0</td><td>Frontend</td></tr>
+                <tr><td>react-router-dom</td><td>7.13.0</td><td>Frontend</td></tr>
+                <tr><td>vite</td><td>7.2.5</td><td>Frontend (dev)</td></tr>
+                <tr><td>express</td><td>5.2.1</td><td>Backend</td></tr>
+                <tr><td>mysql2</td><td>3.16.3</td><td>Backend</td></tr>
+                <tr><td>passport</td><td>0.7.0</td><td>Backend</td></tr>
+                <tr><td>passport-google-oauth20</td><td>2.0.0</td><td>Backend</td></tr>
+                <tr><td>passport-github2</td><td>0.1.12</td><td>Backend</td></tr>
+                <tr><td>jsonwebtoken</td><td>9.0.3</td><td>Backend</td></tr>
+                <tr><td>express-validator</td><td>7.3.1</td><td>Backend</td></tr>
+                <tr><td>winston</td><td>3.11.0</td><td>Backend</td></tr>
+                <tr><td>bcrypt</td><td>5.1.1</td><td>Backend</td></tr>
+                <tr><td>cors</td><td>2.8.6</td><td>Backend</td></tr>
+                <tr><td>dotenv</td><td>17.2.3</td><td>Backend</td></tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- ANNEXE C (planning) + footer (une page)                      -->
+    <!-- ============================================================ -->
+    <div class="page-keep-together page-break-before" id="annexe-c">
+        <h3>Annexe C : Planning de développement</h3>
+        <ul>
+            <li><strong>Semaine 1-2</strong> : Maquettes Figma, modélisation BDD.</li>
+            <li><strong>Semaine 3-4</strong> : Backend (Express, routes CRUD, validation).</li>
+            <li><strong>Semaine 5-6</strong> : Authentification OAuth2 et mode invité.</li>
+            <li><strong>Semaine 7-8</strong> : Frontend (React, composants, hooks, routage).</li>
+            <li><strong>Semaine 9</strong> : Conteneurisation (Dockerfiles, docker-compose).</li>
+            <li><strong>Semaine 10</strong> : Tests, corrections, documentation (README.md).</li>
+            <li><strong>Semaine 11</strong> : Finalisation du dossier professionnel.</li>
+        </ul>
+
+        <!-- ============================================================ -->
+        <!-- PIED DE PAGE AVEC URLs COMPLÈTES                              -->
+        <!-- ============================================================ -->
+        <div class="footer">
+            <div style="font-weight: bold; font-size: 13pt;">
+                Benjamin ASTIER — Dossier Professionnel — Goldorak DB V1 Reload
+            </div>
+            <div style="font-size: 11pt; color: #555; margin-top: 4px;">
+                La Plateforme — Martigues — Session 2025-2026
+            </div>
+            <div class="github-links">
+                <a href="https://github.com/Septieme7/Goldorak-V1.git" target="_blank">
+                    🔗 Dépôt GitHub : https://github.com/Septieme7/Goldorak-V1.git
+                </a>
+                <a href="https://github.com/Septieme7/Goldorak-V1/blob/main/README.md" target="_blank">
+                    📄 README.md : https://github.com/Septieme7/Goldorak-V1/blob/main/README.md
+                </a>
+            </div>
+            <div style="font-size: 10pt; color: #888; margin-top: 12px;">
+                Document généré le 12/05/2026 — Version 7.7.7
+            </div>
+        </div>
+    </div>
+
+</div> <!-- Fin container -->
+
+<!-- ============================================================ -->
+<!-- LIGHTBOX (images + code)                                      -->
+<!-- ============================================================ -->
+<div id="lightbox" class="lightbox-overlay">
+    <span class="close-lightbox" id="lightbox-close">&times;</span>
+    <div class="lightbox-content" id="lightbox-content"></div>
+</div>
+
+<script>
+    (function() {
+        const lightbox = document.getElementById('lightbox');
+        const lightboxContent = document.getElementById('lightbox-content');
+        const closeBtn = document.getElementById('lightbox-close');
+
+        // Fonction pour ouvrir la lightbox avec une image ou du texte
+        function openLightbox(content, isImage = false) {
+            lightboxContent.innerHTML = '';
+            if (isImage) {
+                const img = document.createElement('img');
+                img.src = content;
+                img.alt = 'Agrandissement';
+                lightboxContent.appendChild(img);
+            } else {
+                const pre = document.createElement('pre');
+                pre.textContent = content;
+                pre.style.cssText = 'font-family: "Courier New", monospace; font-size: 14pt; white-space: pre-wrap; word-wrap: break-word; margin: 0;';
+                lightboxContent.appendChild(pre);
+            }
+            lightboxContent.style.transform = 'scale(1)';
+            lightbox.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            lightboxContent.innerHTML = '';
+        }
+
+        // Fermeture
+        closeBtn.addEventListener('click', closeLightbox);
+        lightbox.addEventListener('click', function(e) {
+            if (e.target === lightbox) {
+                closeLightbox();
+            }
+        });
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' && lightbox.style.display === 'flex') {
+                closeLightbox();
+            }
+        });
+
+        // Zoom sur le contenu avec molette
+        let currentScale = 1;
+        const ZOOM_STEP = 0.2;
+        const MIN_SCALE = 0.5;
+        const MAX_SCALE = 3;
+
+        lightboxContent.addEventListener('wheel', function(e) {
+            e.preventDefault();
+            const delta = e.deltaY > 0 ? -ZOOM_STEP : ZOOM_STEP;
+            currentScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, currentScale + delta));
+            this.style.transform = `scale(${currentScale})`;
+        }, { passive: false });
+
+        // Réinitialiser le zoom quand le contenu change
+        const observer = new MutationObserver(() => {
+            currentScale = 1;
+            lightboxContent.style.transform = 'scale(1)';
+        });
+        observer.observe(lightboxContent, { childList: true });
+
+        // --- TOUTES LES IMAGES SONT CLIQUABLES ---
+        document.querySelectorAll('img').forEach(img => {
+            img.addEventListener('click', function(e) {
+                e.stopPropagation();
+                // S'assurer que c'est une image locale (pas un shield.io)
+                if (this.src && !this.src.includes('shields.io') && !this.src.includes('img.shields')) {
+                    openLightbox(this.src, true);
+                }
+            });
+        });
+
+        // --- BLOCS DE CODE CLIQUABLES ---
+        document.querySelectorAll('.code-block.clickable-code').forEach(block => {
+            block.addEventListener('click', function(e) {
+                e.stopPropagation();
+                let text = this.textContent;
+                openLightbox(text.trim(), false);
+            });
+        });
+
+    })();
+</script>
+
+</body>
+</html>

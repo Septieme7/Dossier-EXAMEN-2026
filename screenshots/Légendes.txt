@@ -1,0 +1,27 @@
+il faudrait rajouter ces légendes sous le screenshot adéquats ce qui ce trouve entre " ", dans ma description si dessous,
+
+01-login.png
+"frontend/src/components/Login.jsx"
+"http://localhost:5173/login"
+
+02-dashboard.png
+"frontend/src/AppWithAuth.jsx"
+
+03-personnages.png
+"frontend/src/components/Personnages.jsx"
+
+04-crud-modal.png
+"frontend/src/components/Modal.jsx (extrait du rendu des champs select avec référence)"
+
+05-music-player.png
+"frontend/src/components/MusicPlayer.jsx"
+
+06-api-health.png
+"curl http://localhost:8800/api/v1/health"
+
+07-schema-bdd.png
+"fichier mysql/init.sql"
+
+08-docker-compose.png
+"fichier docker-compose.yml à la racine du projet."
+
